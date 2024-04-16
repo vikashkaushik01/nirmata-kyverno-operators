@@ -11,8 +11,7 @@ metadata:
   name: kyverno
   namespace: {{ template "enterprise-kyverno.namespace" . }}
 spec:
-  secrets:
-    secrets: operator-params
+  secrets: operator-params
   namespace: {{ include "kyverno.namespace" . }}
   repository: {{ .Values.kyverno.image.repository }}
   version: {{ .Values.kyverno.image.tag }}
