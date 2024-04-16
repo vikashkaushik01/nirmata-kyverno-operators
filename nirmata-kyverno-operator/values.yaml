@@ -196,7 +196,7 @@ kyverno:
 
 policies:
   chartRepoUsername:
-  policySets:
+  policySets: "[]"
 
 awsAdapter:
   createCR: false
