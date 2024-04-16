@@ -3,12 +3,20 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: {{ template "enterprise-kyverno.fullname" . }}
+  labels:
+    {{- if .Values.globalLabels }}
+    {{- toYaml .Values.globalLabels | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- if .Values.globalAnnotations }}
+    {{- toYaml .Values.globalAnnotations | nindent 4 }}
+    {{- end }}
 rules:
 - apiGroups:
   - "security.nirmata.io"
   resources:
-  - kyvernoes
-  - kyvernoes/status
+  - kyvernoconfigs
+  - kyvernoconfigs/status
   - policysets
   - policysets/status
   - kyvernoadapters
@@ -23,7 +31,7 @@ rules:
 - apiGroups:
   - security.nirmata.io
   resources:
-  - kyvernoes/finalizers
+  - kyvernoconfigs/finalizers
   - policysets/finalizers
   - kyvernoadapters/finalizers
   verbs:
