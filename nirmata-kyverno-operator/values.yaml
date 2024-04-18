@@ -6,6 +6,8 @@ profile: "prod"
 
 cloudPlatform: ""
 
+licenseSecret: kyverno-license
+
 namespace:
 
 globalLabels: {}
