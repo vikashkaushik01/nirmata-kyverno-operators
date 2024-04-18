@@ -19,7 +19,7 @@ envVars: []
 image:
   repository: ghcr.io/nirmata/nirmata-kyverno-operator
   # Defaults to chart appVersion
-  tag:
+  tag: 
   pullPolicy: IfNotPresent
   pullSecrets:
     registry: ghcr.io
@@ -40,7 +40,7 @@ rbac:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
-enableWebhook: true
+enableWebhook: false
 # Whether certificate management is done by "cert-manager", "operator", "other"
 certManager: operator
 
