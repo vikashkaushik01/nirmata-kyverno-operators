@@ -6,9 +6,7 @@ profile: "prod"
 
 cloudPlatform: ""
 
-licenseSecret: kyverno-license
-
-namespace:
+namespace: cs-operator 
 
 globalLabels: {}
 globalAnnotations: {}
@@ -84,6 +82,8 @@ kyverno:
   templating:
     enabled: false
     image: ghcr.io/nirmata/kubectl:1.29.1
+    version: ~
+  customNamespaces: true
   webhooksCleanup:
     enable: false
     enabled: false
@@ -198,7 +198,7 @@ kyverno:
 
 policies:
   chartRepoUsername:
-  policySets: "[]"
+  policySets:
 
 awsAdapter:
   createCR: false

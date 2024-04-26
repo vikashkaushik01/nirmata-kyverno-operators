@@ -117,19 +117,4 @@ metadata:
 rules:
   {{- toYaml . | nindent 2 }}
 {{- end }}
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: kyverno:create-upstreams
-  labels:
-    {{- include "kyverno.admission-controller.labels" . | nindent 4 }}
-    app: kyverno
-rules:
-- apiGroups:
-  - gloo.solo.io
-  resources:
-  - upstreams
-  verbs:
-  - create
 {{- end }}
