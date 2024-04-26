@@ -19,7 +19,7 @@ envVars: []
 image:
   repository: ghcr.io/nirmata/nirmata-kyverno-operator
   # Defaults to chart appVersion
-  tag: 
+  tag: v0.3.3
   pullPolicy: IfNotPresent
   pullSecrets:
     registry: ghcr.io
@@ -198,7 +198,7 @@ kyverno:
 
 policies:
   chartRepoUsername:
-  policySets:
+  policySets: "[]"
 
 awsAdapter:
   createCR: false
