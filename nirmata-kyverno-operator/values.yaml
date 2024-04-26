@@ -6,7 +6,7 @@ profile: "prod"
 
 cloudPlatform: ""
 
-namespace: cs-operator 
+namespace: cs-operator
 
 globalLabels: {}
 globalAnnotations: {}
@@ -19,7 +19,7 @@ envVars: []
 image:
   repository: ghcr.io/nirmata/nirmata-kyverno-operator
   # Defaults to chart appVersion
-  tag: v0.3.3
+  tag:
   pullPolicy: IfNotPresent
   pullSecrets:
     registry: ghcr.io
@@ -43,6 +43,12 @@ rbac:
 enableWebhook: false
 # Whether certificate management is done by "cert-manager", "operator", "other"
 certManager: operator
+
+# set to true if secret is being provided for licenseManager, and set the name under helm.licenseManager.apiSecret/helm.licenseManager.licenseSecret
+# apiAndLicenseSecretExists: false
+licenseSecret: kyverno-license
+apiSecret: api-secret
+secretNs: cs-operator
 
 # Component configurations
 kyverno:
@@ -198,7 +204,7 @@ kyverno:
 
 policies:
   chartRepoUsername:
-  policySets: "[]"
+  policySets:
 
 awsAdapter:
   createCR: false
