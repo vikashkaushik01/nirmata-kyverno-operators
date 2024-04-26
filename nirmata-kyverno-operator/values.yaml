@@ -10,7 +10,7 @@ namespace: cs-operator
 
 globalLabels: {}
 globalAnnotations: {}
-enablePreDeleteHook: true
+enablePreDeleteHook: false
 
 replicaCount: 1
 
