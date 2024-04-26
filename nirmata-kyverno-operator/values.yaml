@@ -40,7 +40,7 @@ rbac:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
-enableWebhook: true
+enableWebhook: false
 # Whether certificate management is done by "cert-manager", "operator", "other"
 certManager: operator
 
