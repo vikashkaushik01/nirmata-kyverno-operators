@@ -6,7 +6,7 @@ profile: "prod"
 
 cloudPlatform: ""
 
-namespace: cs-operator
+namespace:
 
 globalLabels: {}
 globalAnnotations: {}
@@ -40,15 +40,12 @@ rbac:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
-enableWebhook: false
+enableWebhook: true
 # Whether certificate management is done by "cert-manager", "operator", "other"
 certManager: operator
 
 # set to true if secret is being provided for licenseManager, and set the name under helm.licenseManager.apiSecret/helm.licenseManager.licenseSecret
-# apiAndLicenseSecretExists: false
-licenseSecret: kyverno-license
-apiSecret: api-secret
-secretNs: cs-operator
+apiAndLicenseSecretExists: false
 
 # Component configurations
 kyverno:
@@ -89,7 +86,7 @@ kyverno:
     enabled: false
     image: ghcr.io/nirmata/kubectl:1.29.1
     version: ~
-  customNamespaces: true
+  customNamespaces: false
   webhooksCleanup:
     enable: false
     enabled: false
@@ -204,7 +201,7 @@ kyverno:
 
 policies:
   chartRepoUsername:
-  policySets: "[]"
+  policySets:
 
 awsAdapter:
   createCR: false
