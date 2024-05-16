@@ -202,6 +202,7 @@ kyverno:
         image:
           tag: '1.29.0'
     admissionController:
+      replicas: 3
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
@@ -231,6 +232,7 @@ kyverno:
             memory: 128Mi
 
     cleanupController:
+      replicas: 2
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
@@ -254,6 +256,7 @@ kyverno:
           memory: 96Mi
 
     reportsController:
+      replicas: 2
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
@@ -295,6 +298,7 @@ kyverno:
                   - nirmata
 
     backgroundController:
+      replicas: 2
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
