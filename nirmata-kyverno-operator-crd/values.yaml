@@ -6,7 +6,7 @@ profile: "prod"
 
 cloudPlatform: ""
 
-namespace:
+namespace: cs-operator
 
 globalLabels: {}
 globalAnnotations: {}
@@ -40,12 +40,15 @@ rbac:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
-enableWebhook: true
+enableWebhook: false
 # Whether certificate management is done by "cert-manager", "operator", "other"
 certManager: operator
 
 # set to true if secret is being provided for licenseManager, and set the name under helm.licenseManager.apiSecret/helm.licenseManager.licenseSecret
-apiAndLicenseSecretExists: false
+# apiAndLicenseSecretExists: false
+licenseSecret: kyverno-license
+apiSecret: api-secret
+secretNs: cs-operator
 
 # Component configurations
 kyverno:
@@ -86,7 +89,7 @@ kyverno:
     enabled: false
     image: ghcr.io/nirmata/kubectl:1.29.1
     version: ~
-  customNamespaces: false
+  customNamespaces: true
   webhooksCleanup:
     enable: false
     enabled: false
@@ -198,10 +201,127 @@ kyverno:
       clusterAdmissionReports:
         image:
           tag: '1.29.0'
+    admissionController:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key:  app.kubernetes.io/component
+                  operator: In
+                  values:
+                    - admission-controller
+            topologyKey: "kubernetes.io/hostname"
+      podDisruptionBudget:
+        enabled: true
+        minAvailable: 1
+      nodeSelector: {}
+      initContainer:
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+      container:
+        resources:
+          limits:
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+
+    cleanupController:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/component
+                  operator: In
+                  values:
+                    - cleanup-controller
+            topologyKey: "kubernetes.io/hostname"
+      podDisruptionBudget:
+        enabled: true
+        minAvailable: 1
+      nodeSelector: {}
+      resources:
+        # -- Pod resource limits
+        limits:
+          memory: 256Mi
+        # -- Pod resource requests
+        requests:
+          cpu: 200m
+          memory: 96Mi
+
+    reportsController:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/component
+                  operator: In
+                  values:
+                    - reports-controller
+            topologyKey: "kubernetes.io/hostname"
+      podDisruptionBudget:
+        enabled: true
+        minAvailable: 1
+      nodeSelector: {}
+      resources:
+        # -- Pod resource limits
+        limits:
+          memory: 256Mi
+        # -- Pod resource requests
+        requests:
+          cpu: 200m
+          memory: 96Mi
+
+    config:
+      resourceFilters:
+      - '[*,nirmata,*]'
+      - '[*,nirmata-system,*]'
+      - '[*,kube-system,*]'
+      - '[*,kyverno,*]'
+      webhooks:
+      #Exclude namespaces
+          - namespaceSelector:
+              matchExpressions:
+              - key: kubernetes.io/metadata.name
+                operator: NotIn
+                values:
+                  - kyverno
+                  - nirmata-system
+                  - kube-system
+                  - nirmata
+
+    backgroundController:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/component
+                  operator: In
+                  values:
+                    - background-controller
+            topologyKey: "kubernetes.io/hostname"
+      podDisruptionBudget:
+        enabled: true
+        minAvailable: 1
+      nodeSelector: {}
+      image: 
+        registry: ghcr.io
+      resources:
+        # -- Pod resource limits
+        limits:
+          memory: 256Mi
+        # -- Pod resource requests
+        requests:
+          cpu: 200m
+          memory: 96Mi
 
 policies:
   chartRepoUsername:
-  policySets:
+  policySets: "[]"
 
 awsAdapter:
   createCR: false
@@ -326,3 +446,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
