@@ -203,15 +203,6 @@ kyverno:
           tag: '1.29.0'
     admissionController:
       replicas: 3
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key:  app.kubernetes.io/component
-                  operator: In
-                  values:
-                    - admission-controller
-            topologyKey: "kubernetes.io/hostname"
       podDisruptionBudget:
         enabled: true
         minAvailable: 1
@@ -234,14 +225,6 @@ kyverno:
     cleanupController:
       replicas: 2
       podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/component
-                  operator: In
-                  values:
-                    - cleanup-controller
-            topologyKey: "kubernetes.io/hostname"
       podDisruptionBudget:
         enabled: true
         minAvailable: 1
@@ -257,15 +240,6 @@ kyverno:
 
     reportsController:
       replicas: 2
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/component
-                  operator: In
-                  values:
-                    - reports-controller
-            topologyKey: "kubernetes.io/hostname"
       podDisruptionBudget:
         enabled: true
         minAvailable: 1
@@ -299,15 +273,6 @@ kyverno:
 
     backgroundController:
       replicas: 2
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/component
-                  operator: In
-                  values:
-                    - background-controller
-            topologyKey: "kubernetes.io/hostname"
       podDisruptionBudget:
         enabled: true
         minAvailable: 1
