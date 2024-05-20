@@ -6,10 +6,11 @@ profile: "prod"
 
 cloudPlatform: ""
 
-namespace: cs-operator
+namespace: ""
 
 globalLabels: {}
-globalAnnotations: {}
+globalAnnotations:
+  prometheus.io/scrape: "vikash"
 enablePreDeleteHook: true
 
 replicaCount: 1
@@ -46,9 +47,14 @@ certManager: operator
 
 # set to true if secret is being provided for licenseManager, and set the name under helm.licenseManager.apiSecret/helm.licenseManager.licenseSecret
 # apiAndLicenseSecretExists: false
+# licenseSecret: ""
+# apiSecret: ""
+# secretNs: ""
+
 licenseSecret: kyverno-license
 apiSecret: api-secret
 secretNs: cs-operator
+
 
 # Component configurations
 kyverno:
@@ -203,6 +209,8 @@ kyverno:
           tag: '1.29.0'
     admissionController:
       replicas: 3
+      podAnnotations:
+         prometheus.io/scrape: "vikash"
       podDisruptionBudget:
         enabled: true
         minAvailable: 1
@@ -224,7 +232,8 @@ kyverno:
 
     cleanupController:
       replicas: 2
-      podAntiAffinity:
+      podAnnotations:
+         prometheus.io/scrape: "vikash"
       podDisruptionBudget:
         enabled: true
         minAvailable: 1
@@ -240,6 +249,8 @@ kyverno:
 
     reportsController:
       replicas: 2
+      podAnnotations:
+         prometheus.io/scrape: "vikash"
       podDisruptionBudget:
         enabled: true
         minAvailable: 1
@@ -272,6 +283,8 @@ kyverno:
                   - nirmata
 
     backgroundController:
+      podAnnotations:
+         prometheus.io/scrape: "vikash"
       replicas: 2
       podDisruptionBudget:
         enabled: true
@@ -348,7 +361,8 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-podAnnotations: {}
+# podAnnotations: 
+
 
 podSecurityContext:
   runAsNonRoot: true
@@ -416,6 +430,3 @@ tolerations: []
 
 affinity: {}
 
-podDisruptionBudget:
-  enabled: true
-  minAvailable: 1
