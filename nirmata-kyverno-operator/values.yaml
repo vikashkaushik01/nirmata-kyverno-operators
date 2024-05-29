@@ -6,7 +6,7 @@ profile: "prod"
 
 cloudPlatform: ""
 
-namespace: ""
+namespace: "cs-operator"
 
 globalLabels: {}
 globalAnnotations:
@@ -20,7 +20,7 @@ envVars: []
 image:
   repository: ghcr.io/nirmata/nirmata-kyverno-operator
   # Defaults to chart appVersion
-  tag:
+  tag: v0.3.3
   pullPolicy: IfNotPresent
   pullSecrets:
     registry: ghcr.io
@@ -46,14 +46,7 @@ enableWebhook: false
 certManager: operator
 
 # set to true if secret is being provided for licenseManager, and set the name under helm.licenseManager.apiSecret/helm.licenseManager.licenseSecret
-# apiAndLicenseSecretExists: false
-# licenseSecret: ""
-# apiSecret: ""
-# secretNs: ""
-
-licenseSecret: kyverno-license
-apiSecret: api-secret
-secretNs: cs-operator
+apiAndLicenseSecretExists: true
 
 
 # Component configurations
@@ -196,7 +189,9 @@ kyverno:
     apiVersionOverride:
       podDisruptionBudget: "policy/v1"
     licenseManager:
-      imageTag: v0.1.8
+      imageTag: v0.1.12
+      licenseSecret: api-license
+      apiSecret: api-license
     webhooksCleanup:
       enabled: false
       image: ghcr.io/nirmata/kubectl:1.29.1
